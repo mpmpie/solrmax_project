@@ -4,7 +4,7 @@ from openweather.api import OpenWeatherAPI as openweather
 import dotenv
 import pandas as pd
 
-config = dotenv.dotenv_values('.env')
+config = dotenv.dotenv_values('src/.env')
 data_directory = config.get("DATA_DIRECTORY")
 
 def main():

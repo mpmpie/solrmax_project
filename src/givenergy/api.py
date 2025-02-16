@@ -1,7 +1,7 @@
 import requests
 import dotenv
 
-config = dotenv.dotenv_values(".env")
+config = dotenv.dotenv_values("src/.env")
 
 key = config.get('GIV_ENERGY_API_KEY')
 inverter_id = config.get("GIV_ENERGY_INVERTER_SERIAL_NUMBER")
@@ -22,12 +22,12 @@ class GivEnergyAPI:
         results = {}
         if response.status_code == 200:
             response_json = response.json()['data']
-            results['Solar Power'] = response_json['solar']['power']
-            results['Status'] = response_json['status']
-            results['Battery Percent'] = response_json['battery']['percent']
-            results['Battery Power'] = response_json['battery']['power']
-            results['Battery Temperature'] = response_json['battery']['temperature']
-            results['Compsumption'] = response_json['consumption']
+            results['SolarPower'] = response_json['solar']['power']
+            results['Status'] = GivEnergyAPI.get_status_int(response_json['status'])
+            results['BatteryPercent'] = response_json['battery']['percent']
+            results['BatteryPower'] = response_json['battery']['power']
+            results['BatteryTemperature'] = response_json['battery']['temperature']
+            results['Consumption'] = response_json['consumption']
         else:
             results['Status'] = response.status_code
             results['Error'] = response.json()['message']
@@ -46,12 +46,12 @@ class GivEnergyAPI:
             for entry in response_json: 
                 data_point = {}
                 # data_point['Time'] = entry['time']
-                data_point['Solar Power'] = entry['power']['solar']['power']
-                data_point['Status'] = entry['status']
-                data_point['Battery Percentage'] = entry['power']['battery']['percent']
-                data_point['Battery Power'] = entry['power']['battery']['power']
-                data_point['Battery Temperature'] = entry['power']['battery']['temperature']
-                data_point['Power Consumption'] = entry['power']['consumption']['power']
+                data_point['SolarPower'] = entry['power']['solar']['power']
+                data_point['Status'] = GivEnergyAPI.get_status_int(entry['status'])
+                data_point['BatteryPercentage'] = entry['power']['battery']['percent']
+                data_point['BatteryPower'] = entry['power']['battery']['power']
+                data_point['BatteryTemperature'] = entry['power']['battery']['temperature']
+                data_point['PowerConsumption'] = entry['power']['consumption']['power']
                 data_point['Time'] = entry['time']
                 results.append(data_point)
         else:
@@ -61,3 +61,14 @@ class GivEnergyAPI:
             error['Error'] = response.json()['message']
             results.append(error)
         return results
+
+    def get_status_int(status):
+        status_mapping = {
+            "WAITING": 0,
+            "NORMAL": 1,
+            "WARNING": 2,
+            "ERROR": 3,
+            "UPDATING": 4,
+            "BYPASS": 5
+        }
+        return status_mapping.get(status.upper(), 6)
