@@ -1,5 +1,8 @@
 import requests
 import dotenv
+import logging
+
+logger = logging.getLogger(__name__)
 
 config = dotenv.dotenv_values("src/.env")
 
@@ -18,7 +21,7 @@ class GivEnergyAPI:
     def get_latest_data():
         endpoint = '{}/system-data/latest'.format(url)
         response = requests.get(url = endpoint, headers = headers)
-        print(response.json())
+        logger.debug(response.json())
         results = {}
         if response.status_code == 200:
             response_json = response.json()['data']

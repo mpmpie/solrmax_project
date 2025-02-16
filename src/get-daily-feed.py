@@ -4,19 +4,24 @@ import datetime as dt
 import dotenv
 import pandas as pd
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 config = dotenv.dotenv_values('src/.env')
 data_directory = config.get("DATA_DIRECTORY")
+log_directory = config.get("LOG_DIRECTORY")
+log_level = config.get("LOG_LEVEL")
 
 def main():
     now = dt.datetime.now()
+    logging.basicConfig(filename=f"{log_directory}/{now.date()}.log",level=log_level)
     timestamp = {'Timestamp': now.strftime("%Y-%m-%d %H:%M:%S")}
 
     weather = OpenWeatherAPI.get_live_weather()
-    print(weather)
     energy = GivEnergyAPI.get_latest_data()
     data_entry = pd.Series({**timestamp, **weather, **energy})
-    print(data_entry)
+    logger.info(data_entry)
 
     filepath = f"{data_directory}/{now.date()}.csv"
 
@@ -28,7 +33,6 @@ def main():
         df = pd.concat([df, data_entry.to_frame().T ])
         df.set_index("Timestamp", inplace=True)
 
-        print(df)
     else: 
         df = pd.DataFrame(data_entry.to_frame().T)
         df.set_index("Timestamp", inplace=True)

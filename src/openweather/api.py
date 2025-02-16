@@ -15,7 +15,6 @@ class OpenWeatherAPI:
 
     def get_live_weather():
         api_endpoint = "{}/onecall?lat={}&lon={}&appId={}&units={}&exclude=minutely,hourly,alerts,daily".format(url, lat, lon, key, units)
-        print(api_endpoint)
         results = {}
         response = requests.get(api_endpoint)
         if response.status_code == 200:
@@ -32,7 +31,6 @@ class OpenWeatherAPI:
             daylight = dt.datetime.fromtimestamp(current.get('sunset')) - dt.datetime.fromtimestamp(current.get('sunrise'))
             daylight = daylight.seconds
             results['Daylight'] = daylight
-            print(type(daylight))
         else:
             results['Status Code'] = response.json()['cod']
             results['Message'] = response.json()['message']
@@ -43,7 +41,6 @@ class OpenWeatherAPI:
         results = {}
         response = requests.get(api_endpoint)
         response_json = response.json()
-        print(response_json)
         if response.status_code == 200:
             results['Temperature'] = response_json.get('main').get('temp')
             results['Pressure'] = response_json.get('main').get('pressure')
@@ -51,7 +48,6 @@ class OpenWeatherAPI:
             results['Clouds'] = response_json.get('clouds').get('all')
             daylight = dt.datetime.fromtimestamp(response_json.get('sys').get('sunset')) - dt.datetime.fromtimestamp(response_json.get('sys').get('sunrise'))
             results['Daylight'] = daylight
-            print(type(daylight))
         else:
             results['Status Code'] = response_json['cod']
             results['Message'] = response_json['message']
