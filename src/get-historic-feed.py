@@ -1,10 +1,11 @@
 from datetime import datetime as dt
 from tools.datetools import DayOfWeek
 from givenergy.api import GivEnergyAPI
+import os
 import dotenv
 import pandas as pd
 
-config = dotenv.dotenv_values('.env')
+config = dotenv.dotenv_values(f'{os.path.dirname(os.path.abspath(__file__))}/.env')
 data_directory = config.get("DATA_DIRECTORY")
 
 # Produces CSV file with

@@ -1,8 +1,9 @@
 import requests
 import dotenv
+import os
 import datetime as dt
 
-config = dotenv.dotenv_values("src/.env")
+config = dotenv.dotenv_values(f'{os.path.dirname(os.path.abspath(__file__))}/../.env')
 
 key = config.get('OPEN_WEATHER_API_KEY')
 lat = config.get('OPEN_WEATHER_LAT')
@@ -14,6 +15,7 @@ units = "metric"
 class OpenWeatherAPI:
 
     def get_live_weather():
+        print(f'{os.path.dirname(os.path.abspath(__file__))}/../.env')
         api_endpoint = "{}/onecall?lat={}&lon={}&appId={}&units={}&exclude=minutely,hourly,alerts,daily".format(url, lat, lon, key, units)
         results = {}
         response = requests.get(api_endpoint)

@@ -2,9 +2,10 @@ from datetime import datetime as dt
 from tools.datetools import DayOfWeek
 from openweather.api import OpenWeatherAPI as openweather
 import dotenv
+import os
 import pandas as pd
 
-config = dotenv.dotenv_values('src/.env')
+config = dotenv.dotenv_values(f'{os.path.dirname(os.path.abspath(__file__))}/.env')
 data_directory = config.get("DATA_DIRECTORY")
 
 def main():

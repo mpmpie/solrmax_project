@@ -1,10 +1,11 @@
 import requests
 import dotenv
 import logging
+import os 
 
 logger = logging.getLogger(__name__)
 
-config = dotenv.dotenv_values("src/.env")
+config = dotenv.dotenv_values(f'{os.path.dirname(os.path.abspath(__file__))}/../.env')
 
 key = config.get('GIV_ENERGY_API_KEY')
 inverter_id = config.get("GIV_ENERGY_INVERTER_SERIAL_NUMBER")

@@ -8,7 +8,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-config = dotenv.dotenv_values('src/.env')
+config = dotenv.dotenv_values(f'{os.path.dirname(os.path.abspath(__file__))}/.env')
 data_directory = config.get("DATA_DIRECTORY")
 log_directory = config.get("LOG_DIRECTORY")
 log_level = config.get("LOG_LEVEL")
