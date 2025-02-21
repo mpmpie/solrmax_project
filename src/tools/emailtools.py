@@ -20,7 +20,7 @@ recipients = config.get('EMAIL_RECIPIENTS')
 
 def send_email():
     now = dt.now()
-    logging.basicConfig(filename=f"{log_directory}/{now.date()}.log",level=log_level)
+    logging.basicConfig(filename=f"{log_directory}/{now.date()}.log",level=log_level, format="%(asctime)s %(levelname)s %(message)s")
     body = "This is the body of the text message"
 
     msg = MIMEMultipart()
