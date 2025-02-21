@@ -21,7 +21,7 @@ def main():
     weather = OpenWeatherAPI.get_live_weather()
     energy = GivEnergyAPI.get_latest_data()
     data_entry = pd.Series({**timestamp, **weather, **energy})
-    logger.info(data_entry)
+    logger.debug(data_entry)
 
     filepath = f"{data_directory}/{now.date()}.csv"
 
