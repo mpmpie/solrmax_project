@@ -5,10 +5,11 @@ from email.mime.image import MIMEImage
 from datetime import datetime as dt
 import dotenv
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
-config = dotenv.dotenv_values('src/.env')
+config = dotenv.dotenv_values(f'{os.path.dirname(os.path.abspath(__file__))}/../.env')
 
 data_directory = config.get("DATA_DIRECTORY")
 log_directory = config.get("LOG_DIRECTORY")
@@ -30,6 +31,6 @@ def send_email():
     with open('figure.jpg', 'rb') as image_file:
       msg.attach(MIMEImage(image_file.read()))
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp_server:
-      smtp_server.login(sender, password)
-      smtp_server.sendmail(sender, recipients, msg.as_string())
+      print(f'LoginResponse: {smtp_server.login(sender, password)}')
+      print(f'SendEmailResponse: {smtp_server.sendmail(sender, recipients, msg.as_string())}')
     logger.info("Message sent")
