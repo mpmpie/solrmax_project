@@ -20,7 +20,6 @@ pd.set_option('display.max_colwidth', None)
 np.set_printoptions(suppress=True)
 
 now = dt.now()
-print(f'{data_directory}/{now.date()}.csv')
 data = pd.read_csv(f'{data_directory}/{now.date()}.csv', delimiter = ',')
 solar_panel_data = data.copy()
 solar_panel_data["Time"] = solar_panel_data["Timestamp"].apply(lambda x : dt.strptime(x,'%Y-%m-%d %H:%M:%S').strftime('%H:%M'))

@@ -15,7 +15,6 @@ units = "metric"
 class OpenWeatherAPI:
 
     def get_live_weather():
-        print(f'{os.path.dirname(os.path.abspath(__file__))}/../.env')
         api_endpoint = "{}/onecall?lat={}&lon={}&appId={}&units={}&exclude=minutely,hourly,alerts,daily".format(url, lat, lon, key, units)
         results = {}
         response = requests.get(api_endpoint)
