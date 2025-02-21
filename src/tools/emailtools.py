@@ -31,6 +31,5 @@ def send_email():
     with open('figure.jpg', 'rb') as image_file:
       msg.attach(MIMEImage(image_file.read()))
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp_server:
-      print(f'LoginResponse: {smtp_server.login(sender, password)}')
-      print(f'SendEmailResponse: {smtp_server.sendmail(sender, recipients, msg.as_string())}')
-    logger.info("Message sent")
+      logger.info(f'LoginResponse: {smtp_server.login(sender, password)}')
+      logger.info(f'SendEmailResponse: {smtp_server.sendmail(sender, recipients, msg.as_string())}')
