@@ -49,14 +49,13 @@ class GivEnergyAPI:
             response_json = response.json()['data']
             for entry in response_json: 
                 data_point = {}
-                # data_point['Time'] = entry['time']
+                data_point['Time'] = entry['time']
                 data_point['SolarPower'] = entry['power']['solar']['power']
                 data_point['Status'] = GivEnergyAPI.get_status_int(entry['status'])
                 data_point['BatteryPercentage'] = entry['power']['battery']['percent']
                 data_point['BatteryPower'] = entry['power']['battery']['power']
                 data_point['BatteryTemperature'] = entry['power']['battery']['temperature']
                 data_point['PowerConsumption'] = entry['power']['consumption']['power']
-                data_point['Time'] = entry['time']
                 results.append(data_point)
         else:
             results = []

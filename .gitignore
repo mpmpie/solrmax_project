@@ -172,6 +172,7 @@ cython_debug/
 
 # CSV Data files
 data/*.csv
+data/historic_data/*.csv
 figure.jpg
 
 dataviewer.json

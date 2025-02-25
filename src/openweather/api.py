@@ -53,3 +53,55 @@ class OpenWeatherAPI:
             results['Status Code'] = response_json['cod']
             results['Message'] = response_json['message']
         return results
+    
+    def get_48hr_forecast():
+        api_endpoint = "https://api.openweathermap.org/data/3.0/onecall?lat={}&lon={}&exclude=current,minutely,alerts,daily&appid={}&units={}".format(lat, lon, key, units)
+        response = requests.get(api_endpoint)
+        results = []
+        if response.status_code == 200:
+            hourly = response.json().get('hourly')
+            for hour in hourly:
+                entry = {}
+                entry['Time'] = dt.datetime.fromtimestamp(hour.get('dt'))
+                entry['Temperature'] = hour.get('temp')
+                entry['Pressure'] = hour.get('pressure')
+                entry['Humidity'] = hour.get('humidity')
+                entry['Clouds'] = hour.get('clouds')
+                entry['DewPoint'] = hour.get('dew_point')
+                entry['UVI'] = hour.get('uvi')
+                entry['Visibility'] = hour.get('visibility')
+                entry['WindSpeed'] = hour.get('wind_speed')
+                entry['WindDegree'] = hour.get('wind_deg')
+                results.append(entry)
+        else:
+            error = {}
+            error['Status Code'] = response.json()['cod']
+            error['Message'] = response.json()['message']
+            results.append(error)
+        return results
+    
+    def get_8day_forecast():
+        api_endpoint = "https://api.openweathermap.org/data/3.0/onecall?lat={}&lon={}&exclude=current,minutely,alerts,hourly&appid={}&units={}".format(lat, lon, key, units)
+        response = requests.get(api_endpoint)
+        results = []
+        if response.status_code == 200:
+            daily = response.json().get('daily')
+            for day in daily:
+                entry = {}
+                entry['Time'] = dt.datetime.fromtimestamp(day.get('dt'))
+                entry['Temperature'] = day.get('temp')
+                entry['Pressure'] = day.get('pressure')
+                entry['Humidity'] = day.get('humidity')
+                entry['Clouds'] = day.get('clouds')
+                entry['DewPoint'] = day.get('dew_point')
+                entry['UVI'] = day.get('uvi')
+                entry['Visibility'] = day.get('visibility')
+                entry['WindSpeed'] = day.get('wind_speed')
+                entry['WindDegree'] = day.get('wind_deg')
+                results.append(entry)
+        else:
+            error = {}
+            error['Status Code'] = response.json()['cod']
+            error['Message'] = response.json()['message']
+            results.append(error)
+        return results
