@@ -55,14 +55,16 @@ class OpenWeatherAPI:
         return results
     
     def get_48hr_forecast():
-        api_endpoint = "https://api.openweathermap.org/data/3.0/onecall?lat={}&lon={}&exclude=current,minutely,alerts,daily&appid={}&units={}".format(lat, lon, key, units)
+        api_endpoint = "https://api.openweathermap.org/data/3.0/onecall?lat={}&lon={}&exclude=current,minutely,alerts&appid={}&units={}".format(lat, lon, key, units)
         response = requests.get(api_endpoint)
-        results = []
+        hourly_results = []
+        sunrise_sunset_results = []
         if response.status_code == 200:
             hourly = response.json().get('hourly')
             for hour in hourly:
                 entry = {}
                 entry['Time'] = dt.datetime.fromtimestamp(hour.get('dt'))
+                # entry['Sunrise'] = entry['Time'].date
                 entry['Temperature'] = hour.get('temp')
                 entry['Pressure'] = hour.get('pressure')
                 entry['Humidity'] = hour.get('humidity')
@@ -72,13 +74,21 @@ class OpenWeatherAPI:
                 entry['Visibility'] = hour.get('visibility')
                 entry['WindSpeed'] = hour.get('wind_speed')
                 entry['WindDegree'] = hour.get('wind_deg')
-                results.append(entry)
+                hourly_results.append(entry)
+            daily = response.json().get('daily')
+            for day in daily:
+                entry = {}
+                entry['Time'] = dt.datetime.fromtimestamp(day.get('dt'))
+                entry['Sunrise'] = dt.datetime.fromtimestamp(day.get('sunrise'))
+                entry['Sunset'] = dt.datetime.fromtimestamp(day.get('sunrise'))
+                sunrise_sunset_results.append(entry)
         else:
             error = {}
             error['Status Code'] = response.json()['cod']
             error['Message'] = response.json()['message']
-            results.append(error)
-        return results
+            #### TODO - Return error in a place that's not inside hourly results
+            hourly_results.append(error)
+        return hourly_results, sunrise_sunset_results
     
     def get_8day_forecast():
         api_endpoint = "https://api.openweathermap.org/data/3.0/onecall?lat={}&lon={}&exclude=current,minutely,alerts,hourly&appid={}&units={}".format(lat, lon, key, units)

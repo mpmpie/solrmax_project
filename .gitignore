@@ -176,3 +176,4 @@ data/historic_data/*.csv
 figure.jpg
 
 dataviewer.json
+*.jpg

@@ -25,10 +25,12 @@ def send_email():
 
     msg = MIMEMultipart()
     msg.attach(MIMEText(body, "plain"))
-    msg['Subject'] = 'Test email for solrmax'
+    msg['Subject'] = 'SolrMax Daily Report'
     msg['From'] = sender
     msg['To'] = recipients
-    with open('figure.jpg', 'rb') as image_file:
+    with open('EnergyGeneration.jpg', 'rb') as image_file:
+      msg.attach(MIMEImage(image_file.read()))
+    with open('48HrForecast.jpg', 'rb') as image_file:
       msg.attach(MIMEImage(image_file.read()))
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp_server:
       logger.info(f'LoginResponse: {smtp_server.login(sender, password)}')
