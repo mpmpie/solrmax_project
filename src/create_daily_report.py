@@ -21,8 +21,8 @@ def main():
     np.set_printoptions(suppress=True)
 
     now = dt.now()
-    data = pd.read_csv(f'{data_directory}/2025-02-16.csv', delimiter = ',')
-    # data = pd.read_csv(f'{data_directory}/{now.date()}.csv', delimiter = ',')
+    # data = pd.read_csv(f'{data_directory}/2025-02-16.csv', delimiter = ',')
+    data = pd.read_csv(f'{data_directory}/{now.date()}.csv', delimiter = ',')
     solar_panel_data = data.copy()
     solar_panel_data["Time"] = solar_panel_data["Timestamp"].apply(lambda x : dt.strptime(x,'%Y-%m-%d %H:%M:%S').strftime('%H:%M'))
 
