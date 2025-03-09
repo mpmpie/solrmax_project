@@ -27,9 +27,11 @@ Set up a crontab
 ```bash 
 crontab -e 
 ```
-This will trigger a collectio every 5 minutes:
+This will trigger a collection every 5 minutes:
 ```
 */5 * * * * python3 /home/pi/solrmax_project/src/get-daily-feed.py > /home/pi/log/log.log 2>&1
+
+51 21 * * * python3 /home/jamesdavis/solrmax_project/src/create_daily_report.py > /home/jamesdavis/log/email_log.log 2>&1
 ```
 
 ## Sample data 
